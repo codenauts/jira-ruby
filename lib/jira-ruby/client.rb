@@ -27,7 +27,8 @@ module JIRA
       :rest_base_path => "/rest/api/2",
       :site => nil,
       :username => nil,
-      :password => nil
+      :password => nil,
+      :use_ssl => false
     }
 
     def initialize(options={})
@@ -91,7 +92,7 @@ module JIRA
     def http
       if @http.nil?
         @http = Net::HTTP.new(@uri.host, @uri.port)
-        @http.use_ssl = (@uri.port == 443)
+        @http.use_ssl = ((@uri.port == 443) || (@options[:use_ssl]))
         @http.verify_mode = OpenSSL::SSL::VERIFY_NONE      
       end
 
